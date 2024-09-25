@@ -1,14 +1,16 @@
 'use client'
 import { cn } from "@/lib/utils"
-import { useState,useTransition } from "react"
+import { useState, useTransition } from "react"
 import { useRouter } from "next/router"
 import Dropzone from "react-dropzone"
+import { Loader2, MousePointerSquareDashed } from "lucide-react"
+import { Image } from "lucide-react"
 
 const Page = () => {
 
-    const [isDragOver,setIsDragOver] = useState<boolean>(false)
-    const onDropRejected = () =>{}
-    const onDropAccepted = () =>{}
+    const [isDragOver, setIsDragOver] = useState<boolean>(false)
+    const onDropRejected = () => { }
+    const onDropAccepted = () => { }
     return (
         <div
             className={cn(
@@ -17,8 +19,8 @@ const Page = () => {
                     'ring-blue-900/25 bg-blue-900/10': isDragOver,
                 }
             )}>
-                <div className='relative flex flex-1 flex-col items-center justify-center w-full'>
-                    <Dropzone 
+            <div className='relative flex flex-1 flex-col items-center justify-center w-full'>
+                <Dropzone
                     onDropRejected={onDropRejected}
                     onDropAccepted={onDropAccepted}
                     accept={{
@@ -28,14 +30,21 @@ const Page = () => {
                     }}
                     onDragEnter={() => setIsDragOver(true)}
                     onDragLeave={() => setIsDragOver(false)}
-                    >
-                        {({getRootProps, getInputProps})=>(
-                            <div className="h-full w-full flex-1 flex flex-col items-center justify-center" {...getRootProps}>
-                                <input {...getInputProps()}/>
-                            </div>
-                        )}
-                    </Dropzone>
-                </div>
+                >
+                    {({ getRootProps, getInputProps }) => (
+                        <div className="h-full w-full flex-1 flex flex-col items-center justify-center" {...getRootProps}>
+                            <input {...getInputProps()} />
+                            {isDragOver ? (
+                                <MousePointerSquareDashed className="h-6 w-6 text-zinc-500 mb-2" />
+                            ) : false ? (
+                                <Loader2 className="animtae-spin h-6 w-6 text-zinc-500 mb-2"/>
+                            ) : (
+                                <Image className="h-6 w-6 text-zinc-500 mb-2"/>
+                            )}
+                        </div>
+                    )}
+                </Dropzone>
+            </div>
         </div>
 
     )
